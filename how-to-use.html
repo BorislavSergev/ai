@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Как Да Използваме AI | AI Прозрения</title>
+    <meta name="description" content="Научете как да използвате ефективно инструментите с изкуствен интелект за различни цели и задачи.">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .content-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(to right, #4f46e5, #9333ea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+            padding-bottom: 0.25rem;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(to right, #4f46e5, #9333ea);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: #4f46e5;
+            font-weight: 500;
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .header-blur {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Header Navigation -->
+    <header class="bg-white/90 header-blur shadow-md sticky top-0 z-50">
+        <div class="content-container">
+            <nav class="py-4 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-indigo-600 rounded-full p-2 shadow-md">
+                        <i class="fas fa-robot text-white text-xl"></i>
+                    </div>
+                    <a href="index.html" class="text-2xl font-bold gradient-text">AI Прозрения</a>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex space-x-10">
+                    <a href="index.html" class="nav-link">Начало</a>
+                    <a href="how-to-use.html" class="nav-link active">Как Да Използваме AI</a>
+                    <a href="capabilities.html" class="nav-link">Възможности на AI</a>
+                    <a href="ai-list.html" class="nav-link">AI Каталог</a>
+                </div>
+                
+                <!-- CTA Button -->
+                <div class="hidden md:block">
+                    <a href="#contact" class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2 px-5 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center">
+                        <i class="fas fa-hands-helping mr-2"></i>
+                        <span>Консултация</span>
+                    </a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden" x-data="{ open: false }">
+                    <button @click="open = !open" class="text-gray-600 focus:outline-none">
+                        <i x-show="!open" class="fas fa-bars text-xl"></i>
+                        <i x-show="open" class="fas fa-times text-xl"></i>
+                    </button>
+                    
+                    <!-- Mobile Menu -->
+                    <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="absolute top-16 right-0 left-0 bg-white/95 header-blur shadow-md rounded-b-lg py-5">
+                        <div class="content-container flex flex-col space-y-4">
+                            <a href="index.html" class="py-2 hover:text-indigo-600 transition-colors">Начало</a>
+                            <a href="how-to-use.html" class="py-2 text-indigo-600 font-medium">Как Да Използваме AI</a>
+                            <a href="capabilities.html" class="py-2 hover:text-indigo-600 transition-colors">Възможности на AI</a>
+                            <a href="ai-list.html" class="py-2 hover:text-indigo-600 transition-colors">AI Каталог</a>
+                            <div class="pt-2">
+                                <a href="#contact" class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2 px-4 rounded-lg inline-block">
+                                    <i class="fas fa-hands-helping mr-2"></i>
+                                    <span>Консултация</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-indigo-600 to-purple-700 text-white py-16 md:py-24">
+        <div class="content-container">
+            <div class="max-w-3xl mx-auto text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6">Как Да Използваме Изкуствения Интелект</h1>
+                <p class="text-xl opacity-90 mb-8">Подробно ръководство за ефективно използване на AI инструменти за различни задачи и приложения.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Table of Contents -->
+    <section class="py-12 bg-white">
+        <div class="content-container">
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-gray-50 rounded-xl p-8 shadow-md">
+                    <h2 class="text-2xl font-semibold mb-6">Съдържание</h2>
+                    <ul class="space-y-3">
+                        <li>
+                            <a href="#basics" class="flex items-center text-indigo-600 hover:text-indigo-800">
+                                <span class="mr-2 bg-indigo-100 text-indigo-600 rounded-full w-8 h-8 flex items-center justify-center">1</span>
+                                <span>Основи на AI взаимодействието</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#text" class="flex items-center text-indigo-600 hover:text-indigo-800">
+                                <span class="mr-2 bg-indigo-100 text-indigo-600 rounded-full w-8 h-8 flex items-center justify-center">2</span>
+                                <span>Работа с текстови AI</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#image" class="flex items-center text-indigo-600 hover:text-indigo-800">
+                                <span class="mr-2 bg-indigo-100 text-indigo-600 rounded-full w-8 h-8 flex items-center justify-center">3</span>
+                                <span>Генериране на изображения с AI</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#voice" class="flex items-center text-indigo-600 hover:text-indigo-800">
+                                <span class="mr-2 bg-indigo-100 text-indigo-600 rounded-full w-8 h-8 flex items-center justify-center">4</span>
+                                <span>Гласови и аудио AI инструменти</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#code" class="flex items-center text-indigo-600 hover:text-indigo-800">
+                                <span class="mr-2 bg-indigo-100 text-indigo-600 rounded-full w-8 h-8 flex items-center justify-center">5</span>
+                                <span>AI за програмиране и разработка</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#advanced" class="flex items-center text-indigo-600 hover:text-indigo-800">
+                                <span class="mr-2 bg-indigo-100 text-indigo-600 rounded-full w-8 h-8 flex items-center justify-center">6</span>
+                                <span>Напреднали техники и съвети</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Basics Section -->
+    <section id="basics" class="py-16 md:py-24">
+        <div class="content-container">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex items-center mb-10">
+                    <div class="bg-indigo-100 text-indigo-600 rounded-full w-12 h-12 flex items-center justify-center mr-4">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold">Основи на AI взаимодействието</h2>
+                </div>
+
+                <p class="text-lg text-gray-700 mb-8 leading-relaxed">
+                    Взаимодействието с изкуствения интелект изисква ясна комуникация и разбиране на основните принципи. Ето няколко ключови насоки:
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="text-xl font-semibold mb-4">Формулиране на ясни заявки</h3>
+                        <p class="text-gray-600">Бъдете конкретни и ясни в това, което искате от AI. Колкото по-прецизни сте, толкова по-добър резултат ще получите.</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="text-xl font-semibold mb-4">Изпробвайте итеративно</h3>
+                        <p class="text-gray-600">Не очаквайте перфектни резултати от първия път. Използвайте обратна връзка и рафинирайте заявките си на базата на получените отговори.</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="text-xl font-semibold mb-4">Разбиране на ограниченията</h3>
+                        <p class="text-gray-600">AI инструментите имат своите ограничения. Те могат да грешат, да имат пропуски в знанията си или да дават неточна информация.</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="text-xl font-semibold mb-4">Проверка на изхода</h3>
+                        <p class="text-gray-600">Винаги проверявайте информацията, получена от AI, особено за критични приложения или фактически твърдения.</p>
+                    </div>
+                </div>
+
+                <div class="bg-indigo-50 p-8 rounded-xl mb-12">
+                    <h3 class="text-xl font-semibold mb-4">Пример за добра заявка:</h3>
+                    <div class="bg-white p-4 rounded-lg mb-6 shadow-sm">
+                        <p class="text-gray-800 font-mono">"Напиши ми кратко резюме от 3 абзаца за влиянието на изкуствения интелект върху здравеопазването, фокусирайки се върху диагностиката и лечението на рак."</p>
+                    </div>
+
+                    <h3 class="text-xl font-semibold mb-4">Пример за неясна заявка:</h3>
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                        <p class="text-gray-800 font-mono">"Кажи ми за AI в медицината."</p>
+                    </div>
+                </div>
+
+                <div class="border-l-4 border-indigo-500 pl-6 py-2">
+                    <p class="text-lg italic text-gray-700">
+                        "Ефективното взаимодействие с AI е умение, което се развива с времето. Колкото повече практикувате, толкова по-добре ще разбирате как да получите максимална полза от тези инструменти."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Text AI Section -->
+    <section id="text" class="py-16 md:py-24 bg-gray-50">
+        <div class="content-container">
+            <div class="max-w-4xl mx-auto">
+                <div class="flex items-center mb-10">
+                    <div class="bg-indigo-100 text-indigo-600 rounded-full w-12 h-12 flex items-center justify-center mr-4">
+                        <i class="fas fa-font"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold">Работа с текстови AI</h2>
+                </div>
+
+                <p class="text-lg text-gray-700 mb-8 leading-relaxed">
+                    Текстовите AI модели като GPT-4, Claude и Bard са сред най-популярните инструменти за изкуствен интелект. Те могат да се използват за множество задачи - от писане на съдържание до анализ на данни и отговори на въпроси.
+                </p>
+
+                <h3 class="text-2xl font-semibold mb-6">Основни приложения на текстови AI:</h3>
+
+                <div class="space-y-8 mb-12">
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h4 class="text-xl font-semibold mb-3">Създаване на съдържание</h4>
+                        <p class="text-gray-600 mb-4">AI може да помогне за писане на:</p>
+                        <ul class="list-disc pl-6 space-y-2 text-gray-600">
+                            <li>Блог статии и публикации в социални медии</li>
+                            <li>Маркетингови текстове и рекламни материали</li>
+                            <li>Имейли и бизнес кореспонденция</li>
+                            <li>Креативно писане и истории</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h4 class="text-xl font-semibold mb-3">Обработка и анализ на информация</h4>
+                        <p class="text-gray-600 mb-4">Използвайте AI за:</p>
+                        <ul class="list-disc pl-6 space-y-2 text-gray-600">
+                            <li>Обобщаване на дълги текстове и документи</li>
+                            <li>Извличане на ключови точки от срещи или разговори</li>
+                            <li>Анализ на данни и генериране на доклади</li>
+                            <li>Преформулиране и подобряване на съществуващо съдържание</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h4 class="text-xl font-semibold mb-3">Образование и изследвания</h4>
+                        <p class="text-gray-600 mb-4">AI може да помогне за:</p>
+                        <ul class="list-disc pl-6 space-y-2 text-gray-600">
+                            <li>Обяснение на сложни концепции по разбираем начин</li>
+                            <li>Генериране на обучителни материали и въпроси</li>
+                            <li>Получаване на отговори на изследователски въпроси</li>
+                            <li>Помощ при литературен преглед и проучване</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-indigo-50 p-8 rounded-xl mb-12">
+                    <h3 class="text-xl font-semibold mb-4">Съвети за работа с текстови AI:</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <span class="text-gray-700">Използвайте точки, списъци и форматиране в заявките си за по-структурирани отговори</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <span class="text-gray-700">Задавайте контекст в началото на разговора, за да получите по-релевантни отговори</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <span class="text-gray-700">Изрично посочвайте желания формат на отговора (дължина, стил, тон, структура)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <span class="text-gray-700">Използвайте модела като партньор за мозъчна атака, а не само като източник на отговори</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3" alt="AI текстов асистент" class="w-full rounded-xl shadow-lg mb-6">
+            </div>
+        </div>
+    </section>
+
+    <!-- Image AI Section -->
+    <section id="image" class="py-16 md:py-24">
+        <div class="content-container">
+            <div class="max-w-4xl mx-auto">
+                <!-- Content for Image AI section would go here -->
+                <div class="flex items-center mb-10">
+                    <div class="bg-indigo-100 text-indigo-600 rounded-full w-12 h-12 flex items-center justify-center mr-4">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold">Генериране на изображения с AI</h2>
+                </div>
+
+                <p class="text-lg text-gray-700 mb-8 leading-relaxed">
+                    Генеративните AI инструменти за създаване на изображения като DALL-E, Midjourney и Stable Diffusion трансформират креативните индустрии. Тези инструменти позволяват създаването на сложни визуални елементи от текстови описания.
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                    <img src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e" alt="AI генерирано изображение" class="rounded-xl shadow-md">
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-4">Ключови приложения</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-palette text-indigo-500 mt-1 mr-3 text-lg"></i>
+                                <span class="text-gray-700">Дизайн и илюстрации за маркетингови материали</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-pencil-alt text-indigo-500 mt-1 mr-3 text-lg"></i>
+                                <span class="text-gray-700">Концептуални скици за продуктов дизайн</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-paint-brush text-indigo-500 mt-1 mr-3 text-lg"></i>
+                                <span class="text-gray-700">Артистични визуализации и творчески проекти</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-desktop text-indigo-500 mt-1 mr-3 text-lg"></i>
+                                <span class="text-gray-700">UI/UX прототипи и мокъпи</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 class="text-2xl font-semibold mb-6">Техники за ефективни промпти:</h3>
+
+                <div class="bg-white p-6 rounded-xl shadow-md mb-12">
+                    <h4 class="text-xl font-semibold mb-4">Анатомия на добър промпт за изображение</h4>
+                    <ol class="space-y-4">
+                        <li class="flex">
+                            <span class="bg-indigo-100 text-indigo-600 rounded-full w-8 h-8 flex items-center justify-center mr-3">1</span>
+                            <div>
+                                <h5 class="font-semibold mb-1">Детайлно описание на съдържанието</h5>
+                                <p class="text-gray-600">Опишете подробно обектите, хората, сцените и действията, които искате да видите</p>
+                            </div>
+                        </li>
+                        <li class="flex">
+                            <span class="bg-indigo-100 text-indigo-600 rounded-full w-8 h-8 flex items-center justify-center mr-3">2</span>
+                            <div>
+                                <h5 class="font-semibold mb-1">Стилистични указания</h5>
+                                <p class="text-gray-600">Посочете стил (фотореалистичен, карикатурен, акварел и т.н.), настроение и атмосфера</p>
+                            </div>
+                        </li>
+                        <li class="flex">
+                            <span class="bg-indigo-100 text-indigo-600 rounded-full w-8 h-8 flex items-center justify-center mr-3">3</span>
+                            <div>
+                                <h5 class="font-semibold mb-1">Технически спецификации</h5>
+                                <p class="text-gray-600">Уточнете осветление, перспектива, композиция и други технически аспекти</p>
+                            </div>
+                        </li>
+                        <li class="flex">
+                            <span class="bg-indigo-100 text-indigo-600 rounded-full w-8 h-8 flex items-center justify-center mr-3">4</span>
+                            <div>
+                                <h5 class="font-semibold mb-1">Референции</h5>
+                                <p class="text-gray-600">Споменаване на артисти, филми или други референции, които да вдъхновяват резултата</p>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- More sections would follow -->
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="content-container">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <i class="fas fa-robot text-indigo-400 text-3xl"></i>
+                        <span class="text-2xl font-bold">AI Прозрения</span>
+                    </div>
+                    <p class="text-gray-400 leading-relaxed">Помагаме ви да навигирате в света на изкуствения интелект и да откриете неговия потенциал за трансформация на бизнеса и живота.</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-xl font-semibold mb-6">Бързи Връзки</h4>
+                    <ul class="space-y-3">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors duration-300">Начало</a></li>
+                        <li><a href="how-to-use.html" class="text-gray-400 hover:text-white transition-colors duration-300">Как Да Използваме AI</a></li>
+                        <li><a href="capabilities.html" class="text-gray-400 hover:text-white transition-colors duration-300">Възможности на AI</a></li>
+                        <li><a href="ai-list.html" class="text-gray-400 hover:text-white transition-colors duration-300">AI Каталог</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-xl font-semibold mb-6">Ресурси</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">AI Новини</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Изследователски Статии</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Видео Уроци</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Общностен Форум</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-xl font-semibold mb-6">Свържете се с Нас</h4>
+                    <div class="flex space-x-5 mb-6">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-twitter text-2xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-linkedin text-2xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-github text-2xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-youtube text-2xl"></i></a>
+                    </div>
+                    <p class="text-gray-400">Бъдете в крак с последните новости в областта на AI</p>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2023 AI Прозрения. Всички права запазени.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple script to add some interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

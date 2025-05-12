@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Каталог | AI Прозрения</title>
+    <meta name="description" content="Разгледайте различни AI инструменти и открийте за какво е най-подходящ всеки от тях.">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .content-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(to right, #4f46e5, #9333ea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+            padding-bottom: 0.25rem;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(to right, #4f46e5, #9333ea);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: #4f46e5;
+            font-weight: 500;
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .header-blur {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .ai-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, #4f46e5, #9333ea);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .ai-card:hover::before {
+            transform: scaleX(1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Header Navigation -->
+    <header class="bg-white/90 header-blur shadow-md sticky top-0 z-50">
+        <div class="content-container">
+            <nav class="py-4 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-indigo-600 rounded-full p-2 shadow-md">
+                        <i class="fas fa-robot text-white text-xl"></i>
+                    </div>
+                    <a href="index.html" class="text-2xl font-bold gradient-text">AI Прозрения</a>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex space-x-10">
+                    <a href="index.html" class="nav-link">Начало</a>
+                    <a href="how-to-use.html" class="nav-link">Как Да Използваме AI</a>
+                    <a href="capabilities.html" class="nav-link">Възможности на AI</a>
+                    <a href="ai-list.html" class="nav-link active">AI Каталог</a>
+                </div>
+                
+                <!-- CTA Button -->
+                <div class="hidden md:block">
+                    <a href="#contact" class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2 px-5 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center">
+                        <i class="fas fa-hands-helping mr-2"></i>
+                        <span>Консултация</span>
+                    </a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden" x-data="{ open: false }">
+                    <button @click="open = !open" class="text-gray-600 focus:outline-none">
+                        <i x-show="!open" class="fas fa-bars text-xl"></i>
+                        <i x-show="open" class="fas fa-times text-xl"></i>
+                    </button>
+                    
+                    <!-- Mobile Menu -->
+                    <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" class="absolute top-16 right-0 left-0 bg-white/95 header-blur shadow-md rounded-b-lg py-5">
+                        <div class="content-container flex flex-col space-y-4">
+                            <a href="index.html" class="py-2 hover:text-indigo-600 transition-colors">Начало</a>
+                            <a href="how-to-use.html" class="py-2 hover:text-indigo-600 transition-colors">Как Да Използваме AI</a>
+                            <a href="capabilities.html" class="py-2 hover:text-indigo-600 transition-colors">Възможности на AI</a>
+                            <a href="ai-list.html" class="py-2 text-indigo-600 font-medium">AI Каталог</a>
+                            <div class="pt-2">
+                                <a href="#contact" class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2 px-4 rounded-lg inline-block">
+                                    <i class="fas fa-hands-helping mr-2"></i>
+                                    <span>Консултация</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-indigo-600 to-purple-700 text-white py-16 md:py-24">
+        <div class="content-container">
+            <div class="max-w-3xl mx-auto text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6">AI Каталог</h1>
+                <p class="text-xl opacity-90 mb-10">Открийте различни AI инструменти и за какво е най-добре да използвате всеки от тях.</p>
+                <div class="flex flex-wrap gap-4 justify-center">
+                    <a href="#text-ai" class="bg-white/20 hover:bg-white/30 py-2 px-4 rounded-full transition-colors">Текстови AI</a>
+                    <a href="#image-ai" class="bg-white/20 hover:bg-white/30 py-2 px-4 rounded-full transition-colors">AI за Изображения</a>
+                    <a href="#audio-ai" class="bg-white/20 hover:bg-white/30 py-2 px-4 rounded-full transition-colors">Аудио AI</a>
+                    <a href="#coding-ai" class="bg-white/20 hover:bg-white/30 py-2 px-4 rounded-full transition-colors">AI за Програмиране</a>
+                    <a href="#business-ai" class="bg-white/20 hover:bg-white/30 py-2 px-4 rounded-full transition-colors">Бизнес AI</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Text AI Section -->
+    <section id="text-ai" class="py-16 md:py-20">
+        <div class="content-container">
+            <div class="max-w-5xl mx-auto">
+                <div class="flex items-center mb-12">
+                    <div class="bg-indigo-100 text-indigo-600 p-3 rounded-full mr-4">
+                        <i class="fas fa-font text-xl"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold">Текстови AI Инструменти</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- ChatGPT -->
+                    <div class="bg-white rounded-xl shadow-md ai-card overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/512px-ChatGPT_logo.svg.png" alt="ChatGPT Logo" class="h-10 w-10 mr-3 rounded">
+                                    <h3 class="text-xl font-semibold">ChatGPT</h3>
+                                </div>
+                                <span class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded text-sm">Безплатно / Платено</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Мощен AI чатбот от OpenAI, който може да генерира текст, обобщава информация, отговаря на въпроси и помага с различни задачи.</p>
+                            <div class="mb-4">
+                                <h4 class="font-semibold mb-2">Най-добър за:</h4>
+                                <ul class="space-y-1 text-gray-600">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Писане на съдържание и творческо писане</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Отговори на въпроси и обяснение на концепции</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Помощ с кодиране и програмиране</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a href="https://chat.openai.com" target="_blank" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg transition-colors">Посети сайта</a>
+                        </div>
+                    </div>
+
+                    <!-- Claude -->
+                    <div class="bg-white rounded-xl shadow-md ai-card overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Claude_logo.svg/768px-Claude_logo.svg.png" alt="Claude Logo" class="h-10 w-10 mr-3 rounded">
+                                    <h3 class="text-xl font-semibold">Claude</h3>
+                                </div>
+                                <span class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded text-sm">Безплатно / Платено</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">AI асистент от Anthropic с фокус върху помощ, безопасност и разбиране на сложни текстове.</p>
+                            <div class="mb-4">
+                                <h4 class="font-semibold mb-2">Най-добър за:</h4>
+                                <ul class="space-y-1 text-gray-600">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Анализ на дълги документи</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Нюансирани и етични отговори</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Обобщаване на съдържание</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a href="https://claude.ai" target="_blank" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg transition-colors">Посети сайта</a>
+                        </div>
+                    </div>
+
+                    <!-- Gemini -->
+                    <div class="bg-white rounded-xl shadow-md ai-card overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center">
+                                    <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/gemini-logo.max-640x640.png" alt="Gemini Logo" class="h-10 w-10 mr-3 rounded">
+                                    <h3 class="text-xl font-semibold">Gemini</h3>
+                                </div>
+                                <span class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded text-sm">Безплатно / Платено</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Мултимодален AI модел от Google, който може да разбира и създава текст, код, изображения и видео.</p>
+                            <div class="mb-4">
+                                <h4 class="font-semibold mb-2">Най-добър за:</h4>
+                                <ul class="space-y-1 text-gray-600">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Интеграция с Google услуги</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Анализ на изображения и текст заедно</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Многоезична поддръжка</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a href="https://gemini.google.com" target="_blank" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg transition-colors">Посети сайта</a>
+                        </div>
+                    </div>
+
+                    <!-- Cursor -->
+                    <div class="bg-white rounded-xl shadow-md ai-card overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center">
+                                    <img src="https://www.cursor.so/apple-touch-icon.png" alt="Cursor Logo" class="h-10 w-10 mr-3 rounded">
+                                    <h3 class="text-xl font-semibold">Cursor</h3>
+                                </div>
+                                <span class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded text-sm">Безплатно / Платено</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Текстов редактор с вграден AI, проектиран специално за програмисти с интелигентно автоматично допълване и рефакториране.</p>
+                            <div class="mb-4">
+                                <h4 class="font-semibold mb-2">Най-добър за:</h4>
+                                <ul class="space-y-1 text-gray-600">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Бързо програмиране с AI асистенция</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Обяснение и модификация на код</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Работа с големи кодови бази</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a href="https://cursor.so" target="_blank" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg transition-colors">Посети сайта</a>
+                        </div>
+                    </div>
+
+                    <!-- Replit -->
+                    <div class="bg-white rounded-xl shadow-md ai-card overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center">
+                                    <img src="https://replit.com/public/icons/favicon-196.png" alt="Replit Logo" class="h-10 w-10 mr-3 rounded">
+                                    <h3 class="text-xl font-semibold">Replit</h3>
+                                </div>
+                                <span class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded text-sm">Безплатно / Платено</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Онлайн IDE с вградени AI функции за разработка на софтуер, разбиране и трансформация на код.</p>
+                            <div class="mb-4">
+                                <h4 class="font-semibold mb-2">Най-добър за:</h4>
+                                <ul class="space-y-1 text-gray-600">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Колаборативно програмиране</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Обучение и преподаване на програмиране</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Бързи прототипи и тестване на идеи</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a href="https://replit.com" target="_blank" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg transition-colors">Посети сайта</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Image AI Section -->
+    <section id="image-ai" class="py-16 md:py-20 bg-gray-50">
+        <div class="content-container">
+            <div class="max-w-5xl mx-auto">
+                <div class="flex items-center mb-12">
+                    <div class="bg-indigo-100 text-indigo-600 p-3 rounded-full mr-4">
+                        <i class="fas fa-image text-xl"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold">AI за Генериране на Изображения</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- DALL-E -->
+                    <div class="bg-white rounded-xl shadow-md ai-card overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center">
+                                    <img src="https://daytona.io/images/technologies/dall-e.svg" alt="DALL-E Logo" class="h-10 w-10 mr-3 rounded">
+                                    <h3 class="text-xl font-semibold">DALL-E</h3>
+                                </div>
+                                <span class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded text-sm">Платено</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Модел на OpenAI за генериране на изображения от текстови описания с висока прецизност и детайлност.</p>
+                            <div class="mb-4">
+                                <h4 class="font-semibold mb-2">Най-добър за:</h4>
+                                <ul class="space-y-1 text-gray-600">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Фотореалистични изображения</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Илюстрации и концептуален дизайн</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Маркетингови визуални материали</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a href="https://openai.com/dall-e-3" target="_blank" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg transition-colors">Посети сайта</a>
+                        </div>
+                    </div>
+
+                    <!-- Midjourney -->
+                    <div class="bg-white rounded-xl shadow-md ai-card overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Midjourney_Emblem.png/480px-Midjourney_Emblem.png" alt="Midjourney Logo" class="h-10 w-10 mr-3 rounded">
+                                    <h3 class="text-xl font-semibold">Midjourney</h3>
+                                </div>
+                                <span class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded text-sm">Платено</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Инструмент за генериране на артистични изображения с висока естетическа стойност чрез текстови промпти.</p>
+                            <div class="mb-4">
+                                <h4 class="font-semibold mb-2">Най-добър за:</h4>
+                                <ul class="space-y-1 text-gray-600">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Артистични и стилизирани изображения</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Концептуално изкуство</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Уникални визуални стилове</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a href="https://www.midjourney.com" target="_blank" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg transition-colors">Посети сайта</a>
+                        </div>
+                    </div>
+
+                    <!-- Stable Diffusion -->
+                    <div class="bg-white rounded-xl shadow-md ai-card overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center">
+                                    <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/stable-diffusion-icon.png" alt="Stable Diffusion Logo" class="h-10 w-10 mr-3 rounded">
+                                    <h3 class="text-xl font-semibold">Stable Diffusion</h3>
+                                </div>
+                                <span class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded text-sm">Безплатно / Платено</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Отворен модел за генериране на изображения, който може да се изпълнява локално или чрез различни онлайн платформи.</p>
+                            <div class="mb-4">
+                                <h4 class="font-semibold mb-2">Най-добър за:</h4>
+                                <ul class="space-y-1 text-gray-600">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Локално и частно генериране на изображения</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Персонализация и фина настройка</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Интеграция в работни процеси</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a href="https://stability.ai" target="_blank" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg transition-colors">Посети сайта</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Audio AI Section -->
+    <section id="audio-ai" class="py-16 md:py-20">
+        <div class="content-container">
+            <div class="max-w-5xl mx-auto">
+                <div class="flex items-center mb-12">
+                    <div class="bg-indigo-100 text-indigo-600 p-3 rounded-full mr-4">
+                        <i class="fas fa-music text-xl"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold">Аудио и Гласови AI Инструменти</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- ElevenLabs -->
+                    <div class="bg-white rounded-xl shadow-md ai-card overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center">
+                                    <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2023/11/ElevenLabs-1-1024x536.png" alt="ElevenLabs Logo" class="h-10 w-10 mr-3 rounded">
+                                    <h3 class="text-xl font-semibold">ElevenLabs</h3>
+                                </div>
+                                <span class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded text-sm">Безплатно / Платено</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Платформа за генериране на реалистична реч и дублаж с контрол върху гласа и емоционалния тон.</p>
+                            <div class="mb-4">
+                                <h4 class="font-semibold mb-2">Най-добър за:</h4>
+                                <ul class="space-y-1 text-gray-600">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Реалистично озвучаване</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Многоезичен дублаж</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Аудио книги и подкасти</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a href="https://elevenlabs.io" target="_blank" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg transition-colors">Посети сайта</a>
+                        </div>
+                    </div>
+
+                    <!-- Whisper -->
+                    <div class="bg-white rounded-xl shadow-md ai-card overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center">
+                                    <img src="https://github.com/openai/whisper/raw/main/approach.png" alt="Whisper Logo" class="h-10 w-10 mr-3 rounded">
+                                    <h3 class="text-xl font-semibold">Whisper</h3>
+                                </div>
+                                <span class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded text-sm">Безплатно</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Система за разпознаване на реч от OpenAI с висока точност на множество езици.</p>
+                            <div class="mb-4">
+                                <h4 class="font-semibold mb-2">Най-добър за:</h4>
+                                <ul class="space-y-1 text-gray-600">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Транскрипция на аудио и видео</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Многоезично разпознаване на реч</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Интеграция в разработки</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a href="https://openai.com/research/whisper" target="_blank" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg transition-colors">Посети сайта</a>
+                        </div>
+                    </div>
+
+                    <!-- Suno -->
+                    <div class="bg-white rounded-xl shadow-md ai-card overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center">
+                                    <img src="https://framerusercontent.com/images/3McHolpYwq5C8TTpeuXHgClHk.png" alt="Suno Logo" class="h-10 w-10 mr-3 rounded">
+                                    <h3 class="text-xl font-semibold">Suno</h3>
+                                </div>
+                                <span class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded text-sm">Безплатно / Платено</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">AI система за генериране на музика от текстови описания, създаваща пълни песни с вокали.</p>
+                            <div class="mb-4">
+                                <h4 class="font-semibold mb-2">Най-добър за:</h4>
+                                <ul class="space-y-1 text-gray-600">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Създаване на музика без музикални умения</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Персонализирани саундтраци</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Креативни музикални проекти</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a href="https://suno.ai" target="_blank" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg transition-colors">Посети сайта</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Coding AI Section -->
+    <section id="coding-ai" class="py-16 md:py-20 bg-gray-50">
+        <div class="content-container">
+            <div class="max-w-5xl mx-auto">
+                <div class="flex items-center mb-12">
+                    <div class="bg-indigo-100 text-indigo-600 p-3 rounded-full mr-4">
+                        <i class="fas fa-code text-xl"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold">AI за Програмиране и Разработка</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- GitHub Copilot -->
+                    <div class="bg-white rounded-xl shadow-md ai-card overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center">
+                                    <img src="https://techcommunity.microsoft.com/t5/image/serverpage/image-id/442091i88DBC403D11873D0/image-size/original?v=mpbl-1&px=-1" alt="GitHub Copilot Logo" class="h-10 w-10 mr-3 rounded">
+                                    <h3 class="text-xl font-semibold">GitHub Copilot</h3>
+                                </div>
+                                <span class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded text-sm">Платено</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">AI асистент за програмиране, който предлага кодови предложения, допълнения и решения в реално време.</p>
+                            <div class="mb-4">
+                                <h4 class="font-semibold mb-2">Най-добър за:</h4>
+                                <ul class="space-y-1 text-gray-600">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Интеграция в IDE</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Автоматично довършване на код</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Помощ с алгоритми и функции</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a href="https://github.com/features/copilot" target="_blank" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg transition-colors">Посети сайта</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Business AI Section -->
+    <section id="business-ai" class="py-16 md:py-20">
+        <div class="content-container">
+            <div class="max-w-5xl mx-auto">
+                <div class="flex items-center mb-12">
+                    <div class="bg-indigo-100 text-indigo-600 p-3 rounded-full mr-4">
+                        <i class="fas fa-briefcase text-xl"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold">Бизнес AI Решения</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- HubSpot -->
+                    <div class="bg-white rounded-xl shadow-md ai-card overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center">
+                                    <img src="https://static.hsappstatic.net/ui-images/static-2.466/optimized/h-logo-ai.png" alt="HubSpot AI Logo" class="h-10 w-10 mr-3 rounded">
+                                    <h3 class="text-xl font-semibold">HubSpot AI</h3>
+                                </div>
+                                <span class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded text-sm">Платено</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Интегрирани AI инструменти за маркетинг, продажби и обслужване на клиенти в HubSpot платформата.</p>
+                            <div class="mb-4">
+                                <h4 class="font-semibold mb-2">Най-добър за:</h4>
+                                <ul class="space-y-1 text-gray-600">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Автоматизация на маркетинг</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Създаване на съдържание за бизнес</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Анализ на клиентски данни</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a href="https://www.hubspot.com/artificial-intelligence" target="_blank" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg transition-colors">Посети сайта</a>
+                        </div>
+                    </div>
+
+                    <!-- Salesforce Einstein -->
+                    <div class="bg-white rounded-xl shadow-md ai-card overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center">
+                                    <img src="https://www.salesforce.com/news/wp-content/uploads/sites/3/2023/03/Salesforce-Einstein-logo.jpg" alt="Salesforce Einstein Logo" class="h-10 w-10 mr-3 rounded">
+                                    <h3 class="text-xl font-semibold">Salesforce Einstein</h3>
+                                </div>
+                                <span class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded text-sm">Платено</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">AI платформа, вградена в Salesforce CRM, която предоставя интелигентни функции за управление на връзките с клиенти.</p>
+                            <div class="mb-4">
+                                <h4 class="font-semibold mb-2">Най-добър за:</h4>
+                                <ul class="space-y-1 text-gray-600">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Прогнозиране на продажби</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Автоматизация на обслужването</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Извличане на прозрения от клиентски данни</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a href="https://www.salesforce.com/products/einstein/overview/" target="_blank" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg transition-colors">Посети сайта</a>
+                        </div>
+                    </div>
+
+                    <!-- Notion AI -->
+                    <div class="bg-white rounded-xl shadow-md ai-card overflow-hidden">
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Notion-logo.svg/2048px-Notion-logo.svg.png" alt="Notion AI Logo" class="h-10 w-10 mr-3 rounded">
+                                    <h3 class="text-xl font-semibold">Notion AI</h3>
+                                </div>
+                                <span class="bg-indigo-100 text-indigo-600 px-2 py-1 rounded text-sm">Платено</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">AI асистент, вграден в Notion за подобряване на продуктивността, писане и организация на информация.</p>
+                            <div class="mb-4">
+                                <h4 class="font-semibold mb-2">Най-добър за:</h4>
+                                <ul class="space-y-1 text-gray-600">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Създаване и подобряване на документи</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Обобщаване на бележки от срещи</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                        <span>Организация на информация</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a href="https://www.notion.so/product/ai" target="_blank" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg transition-colors">Посети сайта</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 md:py-24 bg-indigo-900 text-white">
+        <div class="content-container">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">Готови ли сте да използвате силата на AI?</h2>
+                <p class="text-xl opacity-90 mb-10">Научете повече за това как тези различни AI инструменти могат да бъдат приложени във вашите проекти и да трансформират вашата работа.</p>
+                <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+                    <a href="how-to-use.html" class="bg-white text-indigo-600 hover:bg-gray-100 font-medium py-4 px-8 rounded-lg shadow-md transition-colors duration-300 text-lg">Как Да Използваме AI</a>
+                    <a href="capabilities.html" class="bg-transparent border-2 border-white text-white hover:bg-white hover:text-indigo-600 font-medium py-4 px-8 rounded-lg shadow-md transition-colors duration-300 text-lg">Възможности на AI</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="content-container">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <i class="fas fa-robot text-indigo-400 text-3xl"></i>
+                        <span class="text-2xl font-bold">AI Прозрения</span>
+                    </div>
+                    <p class="text-gray-400 leading-relaxed">Помагаме ви да навигирате в света на изкуствения интелект и да откриете неговия потенциал за трансформация на бизнеса и живота.</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-xl font-semibold mb-6">Бързи Връзки</h4>
+                    <ul class="space-y-3">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors duration-300">Начало</a></li>
+                        <li><a href="how-to-use.html" class="text-gray-400 hover:text-white transition-colors duration-300">Как Да Използваме AI</a></li>
+                        <li><a href="capabilities.html" class="text-gray-400 hover:text-white transition-colors duration-300">Възможности на AI</a></li>
+                        <li><a href="ai-list.html" class="text-gray-400 hover:text-white transition-colors duration-300">AI Каталог</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-xl font-semibold mb-6">Ресурси</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">AI Новини</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Изследователски Статии</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Видео Уроци</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors duration-300">Общностен Форум</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-xl font-semibold mb-6">Свържете се с Нас</h4>
+                    <div class="flex space-x-5 mb-6">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-twitter text-2xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-linkedin text-2xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-github text-2xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors duration-300"><i class="fab fa-youtube text-2xl"></i></a>
+                    </div>
+                    <p class="text-gray-400">Бъдете в крак с последните новости в областта на AI</p>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2023 AI Прозрения. Всички права запазени.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple script to add some interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
